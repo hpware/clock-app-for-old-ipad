@@ -1,0 +1,3 @@
+{
+  "extends": "@clock-app-for-my-crusty-ipad/config/tsconfig.base.json"
+}
