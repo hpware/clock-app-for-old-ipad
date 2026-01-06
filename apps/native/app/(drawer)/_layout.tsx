@@ -22,16 +22,18 @@ function DrawerLayout() {
           fontWeight: "600",
           color: themeColorForeground,
         },
-        headerRight: renderThemeToggle,
+        //headerRight: renderThemeToggle,
         drawerStyle: { backgroundColor: themeColorBackground },
       }}
     >
       <Drawer.Screen
         name="index"
         options={{
-          headerTitle: "Home",
+          headerTitle: "",
           drawerLabel: ({ color, focused }) => (
-            <Text style={{ color: focused ? color : themeColorForeground }}>Home</Text>
+            <Text style={{ color: focused ? color : themeColorForeground }}>
+              Home
+            </Text>
           ),
           drawerIcon: ({ size, color, focused }) => (
             <Ionicons
@@ -42,7 +44,7 @@ function DrawerLayout() {
           ),
         }}
       />
-      <Drawer.Screen
+      {/**<Drawer.Screen
         name="(tabs)"
         options={{
           headerTitle: "Tabs",
@@ -64,7 +66,7 @@ function DrawerLayout() {
             </Link>
           ),
         }}
-      />
+      /> */}
     </Drawer>
   );
 }

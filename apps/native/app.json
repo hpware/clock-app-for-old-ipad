@@ -6,7 +6,13 @@
     "web": {
       "bundler": "metro"
     },
-    "name": "clock-app-for-my-crusty-ipad",
+    "ios": {
+      "bundleIdentifier": "com.yuanhau.clockhomeintergrationapplication",
+      "infoPlist": {
+        "NSLocalNetworkUsageDescription": "This app needs access to your local network to function properly."
+      }
+    },
+    "name": "Clock/Home Intergration App",
     "slug": "clock-app-for-my-crusty-ipad",
     "plugins": ["expo-font"],
     "experiments": {
