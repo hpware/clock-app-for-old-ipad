@@ -1,0 +1,8 @@
+{
+  "android": {
+    "package": "com.hwtw.clockappformycrustyipad"
+  },
+  "ios": {
+    "bundleIdentifier": "com.hwtw.clockappformycrustyipad"
+  }
+}
