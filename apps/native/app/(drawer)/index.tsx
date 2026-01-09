@@ -10,7 +10,6 @@ import { Text, View } from "react-native";
 import { useState, useEffect } from "react";
 
 import { Container } from "@/components/container";
-
 export default function Home() {
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -50,19 +49,24 @@ export default function Home() {
               ))}
           </View>
           <View className="flex flex-row gap-4">
-            <Text className="text-xl font-semibold text-foreground/80 tracking-tight min-w-30">
+            <Text
+              className="text-xl font-semibold text-foreground/80 tracking-tight min-w-30"
+              /*           index={currentTime.toLocaleTimeString("zh-TW", {
+     minute: "2-digit",
+     hour: "2-digit",
+   })} */
+            >
               距離睡覺時間：
               {(() => {
-                const now = new Date();
                 const sleepTime = new Date(
-                  now.getFullYear(),
-                  now.getMonth(),
-                  now.getDate() + 1,
+                  currentTime.getFullYear(),
+                  currentTime.getMonth(),
+                  currentTime.getDate() + 1,
                   0,
                   0,
                   0,
                 );
-                const diff = sleepTime.getTime() - now.getTime();
+                const diff = sleepTime.getTime() - currentTime.getTime();
                 const hours = Math.floor(diff / (1000 * 60 * 60));
                 const minutes = Math.floor(
                   (diff % (1000 * 60 * 60)) / (1000 * 60),
@@ -73,9 +77,9 @@ export default function Home() {
           </View>
         </View>
       </Surface>
-      {/*      <Surface className="py-6 mb-4">
-        Bed
-      </Surface> */}
+      <Surface className="py-6 mb-4">
+        <Text>Bed</Text>
+      </Surface>
     </Container>
   );
 }

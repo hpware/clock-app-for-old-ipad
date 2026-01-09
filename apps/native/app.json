@@ -12,11 +12,9 @@
         "NSLocalNetworkUsageDescription": "This app needs access to your local network to function properly."
       }
     },
-    "name": "Clock/Home Intergration App",
+    "name": "Clocn App",
     "slug": "clock-app-for-my-crusty-ipad",
-    "plugins": [
-      "expo-font"
-    ],
+    "plugins": ["expo-font"],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true

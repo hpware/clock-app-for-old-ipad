@@ -44,6 +44,24 @@ function DrawerLayout() {
           ),
         }}
       />
+      <Drawer.Screen
+        name="settings"
+        options={{
+          headerTitle: "",
+          drawerLabel: ({ color, focused }) => (
+            <Text style={{ color: focused ? color : themeColorForeground }}>
+              Settings
+            </Text>
+          ),
+          drawerIcon: ({ size, color, focused }) => (
+            <Ionicons
+              name="cog-outline"
+              size={size}
+              color={focused ? color : themeColorForeground}
+            />
+          ),
+        }}
+      />
       {/**<Drawer.Screen
         name="(tabs)"
         options={{
