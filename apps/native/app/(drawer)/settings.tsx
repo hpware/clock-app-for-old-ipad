@@ -17,36 +17,19 @@ export default function Home() {
     <Container className="p-4">
       <Text className="text-5xl font-bold text-foreground">Settings</Text>
       <Surface className="py-6 mb-4">
-        <Text className="text-2xl font-bold text-foreground">General</Text>
-        <View className="flex-row items-center justify-between mt-4">
-          <Text className="text-base text-foreground">Theme</Text>
-          <Button
-            onPress={() => {
-              //theme.toggle();
-            }}
-          >
-            <Ionicons
-              name={theme.isDark ? "moon-outline" : "sunny-outline"}
-              size={24}
-              //color={theme.isDark ? themeColorForeground : themeColorBackground}
-            />
-          </Button>
-        </View>
-      </Surface>
-      <Surface className="py-6 mb-4">
         <Text className="text-2xl font-bold text-foreground mb-6">
           Credentials
         </Text>
         <View>
           <Text className="text-xl text-foreground mb-2">
-            Your Beszel Instance
+            Your yh_custom_home Instance
           </Text>
           <View className="flex flex-col">
-            <Text className="text-foreground">Email:</Text>
+            <Text className="text-foreground">Server URL:</Text>
             <TextInput className="text-foreground p-1 border border-foreground rounded m-1" />
           </View>
           <View className="flex flex-col">
-            <Text className="text-foreground">Password:</Text>
+            <Text className="text-foreground">API Token:</Text>
             <TextInput
               className="text-foreground p-1 border rounded m-1 border-foreground"
               secureTextEntry={true}

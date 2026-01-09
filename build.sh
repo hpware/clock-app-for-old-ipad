@@ -8,15 +8,21 @@ echo "🚀 Building iPad-only TrollStore compatible IPA..."
 rm -rf build ios
 mkdir -p build
 
+# Navigate to the native app directory
+cd apps/native
+
 # Generate iOS project with iPad configuration
 echo "📱 Generating iOS project..."
 bunx expo prebuild --platform ios --clean
 
+# Return to root directory for building
+cd ../..
+
 # Build the archive (unsigned for TrollStore)
 echo "🔨 Building archive..."
 xcodebuild \
-    -workspace ios/clockappformycrustyipad.xcworkspace \
-    -scheme clockappformycrustyipad \
+    -workspace apps/native/ios/ClocnApp.xcworkspace \
+    -scheme ClocnApp \
     -configuration Release \
     -destination "generic/platform=iOS" \
     -archivePath build/ClockApp.xcarchive \
@@ -28,7 +34,7 @@ xcodebuild \
 # Create IPA package
 echo "📦 Creating IPA..."
 mkdir -p build/Payload
-cp -r build/ClockApp.xcarchive/Products/Applications/clockappformycrustyipad.app build/Payload/
+cp -r build/ClockApp.xcarchive/Products/Applications/ClocnApp.app build/Payload/
 cd build
 zip -r final.ipa Payload/
 cd ..
