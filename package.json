@@ -24,10 +24,13 @@
   },
   "dependencies": {
     "@clock-app-for-my-crusty-ipad/env": "workspace:*",
+    "@react-native-async-storage/async-storage": "^3.0.0-next.3",
     "dotenv": "catalog:",
     "expo": "^54.0.30",
+    "expo-secure-store": "~15.0.8",
     "react": "19.1.0",
     "react-native": "^0.81.5",
+    "sonner-native": "^0.22.2",
     "uniwind": "^1.2.3",
     "zod": "catalog:"
   },

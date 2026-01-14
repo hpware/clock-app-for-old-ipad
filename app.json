@@ -4,5 +4,8 @@
   },
   "ios": {
     "bundleIdentifier": "com.hwtw.clockappformycrustyipad"
-  }
+  },
+  "plugins": [
+    "expo-secure-store"
+  ]
 }

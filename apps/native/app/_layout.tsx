@@ -3,8 +3,12 @@ import { Stack } from "expo-router";
 import { HeroUINativeProvider } from "heroui-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
+import { Toaster } from "sonner-native";
 
 import { AppThemeProvider } from "@/contexts/app-theme-context";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export const unstable_settings = {
   initialRouteName: "(drawer)",
@@ -22,12 +26,15 @@ export default function Layout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <KeyboardProvider>
-        <AppThemeProvider>
-          <HeroUINativeProvider>
-            <StackLayout />
-          </HeroUINativeProvider>
-        </AppThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <AppThemeProvider>
+            <HeroUINativeProvider>
+              <StackLayout />
+            </HeroUINativeProvider>
+          </AppThemeProvider>
+        </QueryClientProvider>
       </KeyboardProvider>
+      <Toaster richColors position="bottom-center" />
     </GestureHandlerRootView>
   );
 }

@@ -8,9 +8,14 @@ import {
 } from "heroui-native";
 import { Text, View } from "react-native";
 import { useState, useEffect } from "react";
-
+import { useQuery, QueryClient } from "@tanstack/react-query";
+import LightToggle from "@/components/lightToggle";
 import { Container } from "@/components/container";
+import { toast } from "sonner-native";
+import * as SecureStore from "expo-secure-store";
+
 export default function Home() {
+  const queryClient = new QueryClient();
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -20,6 +25,43 @@ export default function Home() {
 
     return () => clearInterval(timer);
   }, []);
+
+  useEffect(() => {
+    const getLightState = setInterval(() => {
+      queryClient.invalidateQueries({ queryKey: ["lightState"] });
+    }, 10000);
+
+    return () => clearInterval(getLightState);
+  });
+
+  const { data: lightState, isLoading } = useQuery({
+    queryKey: ["lightState"],
+    queryFn: async () => {
+      try {
+        const serverUrl = await SecureStore.getItemAsync("serverUrl");
+        const token = await SecureStore.getItemAsync("apiToken");
+        const currentDevices = await SecureStore.getItemAsync("currentDevices");
+        if (!serverUrl) throw new Error("No server URL found");
+        if (!token) throw new Error("No API token found");
+        if (!currentDevices) throw new Error("No devices found");
+        const req = await fetch(`${serverUrl}/api/batch/ha_get`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            devices: JSON.parse(currentDevices),
+          }),
+        });
+        const res = await req.json();
+        return res;
+      } catch (e) {
+        toast.error("Failed to fetch light state!");
+        return {};
+      }
+    },
+  });
 
   return (
     <Container className="p-4">
@@ -78,7 +120,7 @@ export default function Home() {
         </View>
       </Surface>
       <Surface className="py-6 mb-4">
-        <Text>Bed</Text>
+        <LightToggle deviceName="" haDeviceId="" currentState={false} />
       </Surface>
     </Container>
   );
