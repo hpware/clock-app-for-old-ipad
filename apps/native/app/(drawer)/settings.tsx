@@ -1,25 +1,17 @@
-import {
-  Button,
-  Chip,
-  Divider,
-  Spinner,
-  Surface,
-  useThemeColor,
-} from "heroui-native";
+import { Button, Surface } from "heroui-native";
 import { Text, TextInput, View } from "react-native";
 import { useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
 import { toast } from "sonner-native";
-import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { Container } from "@/components/container";
 import { Ionicons } from "@expo/vector-icons";
-export default function Home() {
+
+export default function Settings() {
   const [serverUrl, setServerUrl] = useState("");
   const [apiToken, setApiToken] = useState("");
   const [currentDevices, setCurrentDevices] = useState<string[]>([]);
   const [currentTextBoxDeviceSlug, setCurrentTextBoxDeviceSlug] = useState("");
-  const theme = useThemeColor("accent");
   useEffect(() => {
     SecureStore.getItemAsync("serverUrl").then((value) => {
       if (value) {
@@ -43,13 +35,22 @@ export default function Home() {
     toast.success("Data saved successfully");
   };
   const saveIntoDeviceLightToggles = async () => {
-    setCurrentDevices([...currentDevices, currentTextBoxDeviceSlug]);
-    await SecureStore.setItemAsync(
-      "currentDevices",
-      JSON.stringify(currentDevices),
-    );
+    if (!currentTextBoxDeviceSlug.trim()) {
+      toast.error("Please enter a device slug");
+      return;
+    }
+    const newDevices = [...currentDevices, currentTextBoxDeviceSlug.trim()];
+    setCurrentDevices(newDevices);
+    await SecureStore.setItemAsync("currentDevices", JSON.stringify(newDevices));
     setCurrentTextBoxDeviceSlug("");
-    toast.success("Device light toggles saved successfully");
+    toast.success("Device added successfully");
+  };
+
+  const removeDevice = async (index: number) => {
+    const newDevices = currentDevices.filter((_, i) => i !== index);
+    setCurrentDevices(newDevices);
+    await SecureStore.setItemAsync("currentDevices", JSON.stringify(newDevices));
+    toast.success("Device removed");
   };
   return (
     <Container className="p-4">
@@ -68,10 +69,10 @@ export default function Home() {
           </View>
           <Button onPress={() => saveIntoDeviceLightToggles()}>Add!</Button>
           {currentDevices.map((item, index) => (
-            <View key={index}>
-              <Text className="text-foreground">Device Slug: {item}</Text>
-              <Button>
-                <Ionicons name="trash" size={24} color="black" />
+            <View key={index} className="flex-row items-center justify-between py-2">
+              <Text className="text-foreground flex-1">Device Slug: {item}</Text>
+              <Button onPress={() => removeDevice(index)} size="sm">
+                <Ionicons name="trash" size={18} color="#ef4444" />
               </Button>
             </View>
           ))}

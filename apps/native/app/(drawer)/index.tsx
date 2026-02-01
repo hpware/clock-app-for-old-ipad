@@ -1,21 +1,14 @@
-import {
-  Button,
-  Chip,
-  Divider,
-  Spinner,
-  Surface,
-  useThemeColor,
-} from "heroui-native";
+import { Surface } from "heroui-native";
 import { Text, View } from "react-native";
 import { useState, useEffect } from "react";
-import { useQuery, QueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import LightToggle from "@/components/lightToggle";
 import { Container } from "@/components/container";
 import { toast } from "sonner-native";
 import * as SecureStore from "expo-secure-store";
 
 export default function Home() {
-  const queryClient = new QueryClient();
+  const queryClient = useQueryClient();
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -32,9 +25,9 @@ export default function Home() {
     }, 10000);
 
     return () => clearInterval(getLightState);
-  });
+  }, [queryClient]);
 
-  const { data: lightState, isLoading } = useQuery({
+  const { data: lightState } = useQuery({
     queryKey: ["lightState"],
     queryFn: async () => {
       try {
@@ -119,8 +112,24 @@ export default function Home() {
           </View>
         </View>
       </Surface>
-      <Surface className="py-6 mb-4">
-        <LightToggle deviceName="" haDeviceId="" currentState={false} />
+      <Surface className="py-6 px-4 mb-4">
+        <Text className="text-2xl font-bold text-foreground mb-4">燈光控制</Text>
+        {lightState && Object.keys(lightState).length > 0 ? (
+          <View className="gap-3">
+            {Object.entries(lightState).map(([deviceId, state]) => (
+              <LightToggle
+                key={deviceId}
+                deviceName={deviceId}
+                haDeviceId={deviceId}
+                currentState={Boolean(state)}
+              />
+            ))}
+          </View>
+        ) : (
+          <Text className="text-foreground/60 text-center py-4">
+            尚未設定裝置，請在設定中新增
+          </Text>
+        )}
       </Surface>
     </Container>
   );
